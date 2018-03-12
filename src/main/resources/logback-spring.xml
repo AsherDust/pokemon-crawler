@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="APP_NAME" value="pokemon-crawler"/>
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%yellow(%d{HH:mm:ss.SSS}) %highlight(%5p) %boldCyan(%-36.36c{35}) : %m%n%xEx{10}"/>
+    <property name="FILE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} %5p %-36.36c{35} : %m%n%xEx"/>
+
+    <contextName>${APP_NAME}</contextName>
+
+    <!-- 输出到控制台 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 输出到文件 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <!-- 基于时间的归档配置 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${LOG_PATH:-log}/${APP_NAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- keep 15 days' worth of history -->
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+    <!-- 配置特定logger的有效日志等级 -->
+    <!-- 打印SQL语句 -->
+    <logger name="com.noash.poke.dao" level="DEBUG"/>
+
+</configuration>

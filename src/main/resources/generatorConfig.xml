@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="mysql" targetRuntime="MyBatis3Simple">
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+        <commentGenerator>
+            <!-- 取消生成的创建时间注释 -->
+            <!--<property name="suppressDate" value="true"/>-->
+            <!-- 添加数据库的注释 -->
+            <!--<property name="addRemarkComments" value="true"/>-->
+            <!-- 取消所有生成的注释 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库连接属性 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://101.132.103.144:3306/pokemon?useSSL=false"
+                        userId="pokemon_admin"
+                        password="pokemon123">
+        </jdbcConnection>
+
+        <!-- java实体类生成器 -->
+        <javaModelGenerator targetPackage="com.noash.poke.domain"
+                            targetProject="src\main\java">
+            <property name="enableSubPackages" value="true"/>
+            <!--<property name="trimStrings" value="true"/>-->
+        </javaModelGenerator>
+
+        <!-- SQL mapper XML文件生成器 -->
+        <!--<sqlMapGenerator targetPackage="mapper" targetProject="src\main\resources">-->
+        <!--<property name="enableSubPackages" value="true"/>-->
+        <!--</sqlMapGenerator>-->
+
+        <!-- mapper接口生成器(基于注解) -->
+        <javaClientGenerator type="ANNOTATEDMAPPER"
+                             targetPackage="com.noash.poke.dao"
+                             targetProject="src\main\java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- 选择生成文件的数据库表 -->
+        <table tableName="pokemon"/>
+
+    </context>
+</generatorConfiguration>
