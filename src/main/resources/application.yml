@@ -19,19 +19,3 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
-
-# 数据爬虫地址
-pokemon-data:
-  domain: http://dex.pokeuniv.com
-  version: 3.0.3
-  dex-total: 807
-  url:
-    constants: ${pokemon-data.domain}/resource/constants.js?${pokemon-data.version}
-    ability-list: ${pokemon-data.domain}/resource/ability-list.json?${pokemon-data.version}
-    item-list: ${pokemon-data.domain}/resource/item-list.json?${pokemon-data.version}
-    move-list: ${pokemon-data.domain}/resource/move-list.json?${pokemon-data.version}
-    pokemon-list: ${pokemon-data.domain}/resource/pokemon-list.json?${pokemon-data.version}
-    ability-detail-prefix: ${pokemon-data.domain}/zh/ability-
-    item-detail-prefix: ${pokemon-data.domain}/zh/item-
-    move-detail-prefix: ${pokemon-data.domain}/zh/move-
-    pokemon-detail-prefix: ${pokemon-data.domain}/zh/pokemon-
