@@ -16,8 +16,8 @@ public class HttpClientConfig {
     @Bean
     public RestTemplate restTemplate() {
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-        requestFactory.setConnectTimeout(100000);
-        requestFactory.setReadTimeout(100000);
+        requestFactory.setConnectTimeout(10000);
+        requestFactory.setReadTimeout(20000);
 
         RestTemplate restTemplate = new RestTemplate(requestFactory);
         // 使用 utf-8 编码集的 converter 替换默认的 converter (默认的 string converter 的编码集为 "ISO-8859-1")

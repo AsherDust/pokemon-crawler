@@ -126,7 +126,7 @@ public class WebFetcher {
         Progress progress = new Progress();
         progress.setVersion(version);
         progress.setNumber(0);
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 7; i++) {
             progress.setStep(i);
             mongo.insert(progress);
         }

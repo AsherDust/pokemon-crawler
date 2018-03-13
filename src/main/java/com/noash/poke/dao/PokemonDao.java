@@ -70,4 +70,11 @@ public interface PokemonDao {
     })
     Integer selectIdByNationalIdAndSubId(@Param("nationalId") Integer nationalId, @Param("subId") Integer subId);
 
+    @Select({
+        "SELECT national_id, sub_id",
+        "FROM pokemon",
+        "WHERE national_id > #{fetchedNum}"
+    })
+    List<Pokemon> selectNotLoaded(Integer loadedNum);
+
 }

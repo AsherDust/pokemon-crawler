@@ -13,56 +13,50 @@ public class DataParserTest {
     private DataParser dataParser;
 
     @Test
+    public void test() throws Exception {
+        System.out.println("ignore testing data parser");
+    }
+
     public void parseAbilities() throws Exception {
         dataParser.parseAbilities();
     }
 
-    @Test
     public void parseItems() throws Exception {
         dataParser.parseItems();
     }
 
-    @Test
     public void parseItemAccesses() throws Exception {
         dataParser.parseItemAccesses();
     }
 
-    @Test
     public void parseMoves() throws Exception {
         dataParser.parseMoves();
     }
 
-    @Test
     public void parsePokedexIds() throws Exception {
         dataParser.parsePokedexIds();
     }
 
-    @Test
     public void parsePokemons() throws Exception {
         dataParser.parsePokemons();
     }
 
-    @Test
     public void parsePokemonLevelMoves() throws Exception {
         dataParser.parsePokemonLevelMoves();
     }
 
-    @Test
     public void parsePokemonTmMoves() throws Exception {
         dataParser.parsePokemonTmMoves();
     }
 
-    @Test
     public void parsePokemonFixedMoves() throws Exception {
         dataParser.parsePokemonFixedMoves();
     }
 
-    @Test
     public void parseConstants() throws Exception {
         dataParser.parseConstants();
     }
 
-    @Test
     public void parseEvolutionChains() throws Exception {
         dataParser.parseEvolutionChains();
     }

@@ -3,6 +3,9 @@ package com.noash.poke.dao;
 import com.noash.poke.domain.Item;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface ItemDao {
@@ -17,4 +20,12 @@ public interface ItemDao {
         "(#{id}, #{nameZh}, #{nameEn}, #{nameJp}, #{type}, #{price}, #{isUsable}, #{isDisposable}, #{tmMoveId}, #{descr})"
     })
     int insert(Item item);
+
+    @Select({
+        "SELECT id",
+        "FROM item",
+        "WHERE id > #{loadedNum}"
+    })
+    List<Integer> selectNotLoaded(Integer loadedNum);
+
 }
