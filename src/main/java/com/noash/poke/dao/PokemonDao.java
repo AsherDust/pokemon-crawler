@@ -1,10 +1,7 @@
 package com.noash.poke.dao;
 
 import com.noash.poke.domain.Pokemon;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -76,5 +73,12 @@ public interface PokemonDao {
         "WHERE national_id > #{fetchedNum}"
     })
     List<Pokemon> selectNotLoaded(Integer loadedNum);
+
+    @Update({
+        "UPDATE pokemon SET alola_id = #{alolaId}",
+        "WHERE national_id = #{nationalId}",
+        "AND sub_id = #{subId}"
+    })
+    int updateAlolaId(@Param("nationalId") Integer nationalId, @Param("subId") Integer subId, @Param("alolaId") Integer alolaId);
 
 }

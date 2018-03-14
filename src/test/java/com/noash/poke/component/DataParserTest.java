@@ -60,4 +60,9 @@ public class DataParserTest {
     public void parseEvolutionChains() throws Exception {
         dataParser.parseEvolutionChains();
     }
+
+    @Test
+    public void repairAlolaIds() throws Exception {
+        dataParser.repairAlolaIds();
+    }
 }

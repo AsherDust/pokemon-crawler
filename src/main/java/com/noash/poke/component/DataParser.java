@@ -630,4 +630,46 @@ public class DataParser {
 
         return pokemonDao.selectIdByNationalIdAndSubId(Integer.valueOf(compoundId[0]), subId);
     }
+
+    @Transactional
+    public void repairAlolaIds() {
+        log.info("----------PARSE alola ids----------");
+        // set field projections for target collection
+        String collection = "pokemon_" + version;
+        String innerKey = "forme";
+
+        DBObject fieldsObject = new BasicDBObject("_id", false)
+            .append("nat_id", true)
+            .append("alola_id", true)
+            .append("forme.nat_id", true)
+            .append("forme.alola_id", true);
+
+        // parse data and update records
+        for (int i = 1; i < dexTotal + 1; i++) {
+            log.info("Get No.{} data", i);
+            DBObject queryObject = new BasicDBObject("nat_id", i);
+            JSONObject json = mongo.findOne(new BasicQuery(queryObject, fieldsObject), JSONObject.class, collection);
+
+            parseAndUpdateAlolaId(json);
+            // parse data in forme
+            JSONArray forme = json.getJSONArray(innerKey);
+            for (Object data : forme) {
+                parseAndUpdateAlolaId((JSONObject) data);
+            }
+        }
+    }
+
+    private void parseAndUpdateAlolaId(JSONObject json) {
+        Integer alolaId = json.getInteger("alola_id");
+        if (alolaId != 0) {
+            String[] compoundId = json.getString("nat_id").split("\\.");
+            Integer subId = 0;
+            if (compoundId.length == 2) {
+                subId = Integer.valueOf(compoundId[1]);
+            }
+            Integer nationalId = Integer.valueOf(compoundId[0]);
+            pokemonDao.updateAlolaId(nationalId, subId, alolaId);
+        }
+    }
+
 }
