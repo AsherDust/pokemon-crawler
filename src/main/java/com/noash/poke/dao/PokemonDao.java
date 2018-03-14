@@ -74,6 +74,14 @@ public interface PokemonDao {
     })
     List<Pokemon> selectNotLoaded(Integer loadedNum);
 
+    @Select({
+        "SELECT count(*)",
+        "FROM pokemon",
+        "WHERE alola_id != 0",
+        "AND national_id = #{nationalId}"
+    })
+    int countHasAlolaIdByNationalId(Integer nationalId);
+
     @Update({
         "UPDATE pokemon SET alola_id = #{alolaId}",
         "WHERE national_id = #{nationalId}",

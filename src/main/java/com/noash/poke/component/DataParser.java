@@ -663,12 +663,15 @@ public class DataParser {
         Integer alolaId = json.getInteger("alola_id");
         if (alolaId != 0) {
             String[] compoundId = json.getString("nat_id").split("\\.");
-            Integer subId = 0;
-            if (compoundId.length == 2) {
-                subId = Integer.valueOf(compoundId[1]);
-            }
             Integer nationalId = Integer.valueOf(compoundId[0]);
-            pokemonDao.updateAlolaId(nationalId, subId, alolaId);
+            int count = pokemonDao.countHasAlolaIdByNationalId(nationalId);
+            if (count == 0) {
+                Integer subId = 0;
+                if (compoundId.length == 2) {
+                    subId = Integer.valueOf(compoundId[1]);
+                }
+                pokemonDao.updateAlolaId(nationalId, subId, alolaId);
+            }
         }
     }
 
