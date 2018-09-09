@@ -26,4 +26,9 @@ public class ResourceLoaderTest {
     public void loadPokemonCries() throws Exception {
         resourceLoader.loadPokemonCries();
     }
+
+    @Test
+    public void downloadAllFiles() throws Exception {
+        resourceLoader.downloadAllFiles();
+    }
 }

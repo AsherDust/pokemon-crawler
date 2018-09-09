@@ -1,8 +1,7 @@
 package com.noash.poke.component;
 
 import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.model.CannedAccessControlList;
-import com.aliyun.oss.model.ObjectMetadata;
+import com.aliyun.oss.model.*;
 import com.mongodb.BasicDBObject;
 import com.noash.poke.dao.ItemDao;
 import com.noash.poke.dao.PokemonDao;
@@ -17,6 +16,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -53,6 +53,9 @@ public class ResourceLoader {
     private String accessKeyId;
     @Value("${oss.access-key-secret}")
     private String accessKeySecret;
+
+    @Value("${file-store.directory}")
+    private String fileStoreDirectory;
 
     void loadPokemonImages() throws Exception {
         log.info("----------LOAD pokemon images----------");
@@ -166,6 +169,36 @@ public class ResourceLoader {
             mongo.updateFirst(query, Update.update("number", loadedNum), Progress.class);
         }
 
+        ossClient.shutdown();
+    }
+
+    void downloadAllFiles() {
+        // 创建OSSClient实例。
+        OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+        // 指定每页200个文件。
+        final int maxKeys = 200;
+        final String keyPrefix = "pokemon/";
+        String nextMarker = "pokemon/private";
+        ObjectListing objectListing;
+        do {
+            objectListing = ossClient.listObjects(new ListObjectsRequest(bucketName).
+                withPrefix(keyPrefix).withMarker(nextMarker).withMaxKeys(maxKeys));
+            List<OSSObjectSummary> sums = objectListing.getObjectSummaries();
+            for (OSSObjectSummary s : sums) {
+                if (s.getKey().endsWith("/")) {
+                    continue;
+                }
+
+                File filePath = new File(fileStoreDirectory, s.getKey());
+                filePath.getParentFile().mkdirs();
+
+                log.info("Download file: {}", filePath);
+                ossClient.getObject(new GetObjectRequest(bucketName, s.getKey()), filePath);
+            }
+            nextMarker = objectListing.getNextMarker();
+        } while (objectListing.isTruncated());
+
+        // 关闭OSSClient。
         ossClient.shutdown();
     }
 
